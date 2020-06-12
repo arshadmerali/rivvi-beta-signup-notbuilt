@@ -169,7 +169,7 @@ export class ApplicationForm extends Component {
                 backgroundRepeat: 'no-repeat',
                 backgroundPosition: 'bottom right'
             }}>
-                <div id="header"> <img src="./images/rivvi-logo.png" width="100" alt="logo" /> </div>
+                <div id="header"> <img src="./images/rivvi-logo.png" width="120" alt="logo" /> </div>
                 <form id="register" name="submit-to-google-sheet" onSubmit={this.handleSubmit}>
                     {/* render the form steps and pass required props in */}
                     <Step1

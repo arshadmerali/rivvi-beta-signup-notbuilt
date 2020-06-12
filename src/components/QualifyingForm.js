@@ -75,7 +75,7 @@ export class QualifyingForm extends Component {
                 backgroundRepeat: 'no-repeat',
                 backgroundPosition: 'bottom right'
             }}>
-                <div id="header"> <img src="./images/rivvi-logo.png" width="100" alt="logo" /> </div>
+                <div id="header"> <img src="./images/rivvi-logo.png" width="120" alt="logo" /> </div>
                 <form id="qualify" onSubmit={this.handleSubmit}>
                     {/* render the form steps and pass required props in*/}
                     <Step1
@@ -124,7 +124,7 @@ function Step1(props) {
     }
     return (
         <div className="form-group">
-            <h4>We’re currently recruiting <br />private beta test customers.</h4>
+            <h4>We’re currently recruiting private beta test customers.</h4>
 
             <p id="intro-blurb">
                 If you’re interested in reducing your operating costs, we would like to offer you free payroll processing for your business… interested?  Keep reading.
@@ -195,7 +195,7 @@ function Step6(props) {
     }
     return (
         <div className="form-group">
-            <h2>Congrats! You qualify to be a <br /> Rivvi Beta Customer</h2>
+            <h2>Congrats! You qualify to be a Rivvi Beta Customer</h2>
             <button style={{ float: "left", backgroundColor: "#e45115", border: "3px solid #e45115" }} onClick={props.back}>
                 No thanks
             </button>
