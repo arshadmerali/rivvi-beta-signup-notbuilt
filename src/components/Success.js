@@ -16,7 +16,7 @@ export class Success extends Component {
             }}>
                 <section>
                     <header>
-                        <img src="./images/rivvi-logo.png" width="120" alt="logo" />
+                        <img src="./images/rivvi-logo.png" width="120" height="41.2" alt="logo" />
                     </header>
                 </section>
 

@@ -75,7 +75,7 @@ export class QualifyingForm extends Component {
                 backgroundRepeat: 'no-repeat',
                 backgroundPosition: 'bottom right'
             }}>
-                <div id="header"> <img src="./images/rivvi-logo.png" width="120" alt="logo" /> </div>
+                <div id="header"> <img src="./images/rivvi-logo.png" width="120" height="41.2" alt="logo" /> </div>
                 <form id="qualify" onSubmit={this.handleSubmit}>
                     {/* render the form steps and pass required props in*/}
                     <Step1
