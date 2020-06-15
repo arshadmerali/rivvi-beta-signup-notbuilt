@@ -36,6 +36,13 @@ export class QualifyingForm extends Component {
             currentStep: currentStep
         })
     }
+    //goes to next question when you press enter
+    handleEnter = e => {
+        if (e.keyCode === 13) {
+            e.preventDefault();
+            this._yes();
+        }
+    }
     /*
     * the functions for our button
     */
@@ -44,9 +51,23 @@ export class QualifyingForm extends Component {
         if ((currentStep !== 1) && (currentStep < 6)) {
             return (
                 <button
-                    style={{ float: "left", backgroundColor: "#e45115", border: "3px solid #e45115" }}
+                    style={{ float: "left", backgroundColor: "white", border: "1.5px solid #ea1403", color: "#ea1403"}}
                     type="button" onClick={this._no}>
                     No
+                </button>
+            )
+        }
+        if(currentStep === 1){
+            return (
+                <button style={{ float: "left", backgroundColor: "white", border: "1.5px solid #ea1403", color: "#ea1403"}} onClick={this.back}>
+                Back
+                </button>
+            )
+        }
+        if((currentStep === 6)){
+            return (
+                <button style={{ float: "left", backgroundColor: "white", border: "1.5px solid #ea1403", color: "#ea1403"}} onClick={this.back}>
+                No thanks
                 </button>
             )
         }
@@ -57,11 +78,16 @@ export class QualifyingForm extends Component {
         let currentStep = this.state.currentStep;
         if (currentStep < 6) {
             return (
-                <button
-                    style={{ float: "right", backgroundColor: "#709500", border: "3px solid #709500" }}
-                    type="button" onClick={this._yes}>
-                    Yes
-                </button>
+                <div>
+                    <span>Press Enter ↵</span>
+                    <button
+                        style={{ float: "right", backgroundColor: "#4444d7", border: "1.5px solid #4444d7" }}
+                        type="button" 
+                        onKeyDown={this.handleEnter}
+                        onClick={this._yes}>
+                        Yes
+                    </button>
+                </div>
             )
         }
         return null;
@@ -76,11 +102,10 @@ export class QualifyingForm extends Component {
                 backgroundPosition: 'bottom right'
             }}>
                 <div id="header"> <img src="./images/rivvi-logo.png" width="120" height="41.2" alt="logo" /> </div>
-                <form id="qualify" onSubmit={this.handleSubmit}>
+                <form id="qualify" onSubmit={this.handleSubmit} onKeyDown={this.handleEnter}>
                     {/* render the form steps and pass required props in*/}
                     <Step1
                         currentStep={this.state.currentStep}
-                        back={this.back}
                     />
                     <Step2
                         currentStep={this.state.currentStep}
@@ -96,11 +121,9 @@ export class QualifyingForm extends Component {
                     />
                     <Step6
                         currentStep={this.state.currentStep}
-                        back={this.back}
                     />
                     <Step7
                         currentStep={this.state.currentStep}
-                        back={this.back}
                     />
                     <div style={{
                         display: "flex",
@@ -132,9 +155,6 @@ function Step1(props) {
                 <br /><br />Our goal right now is to ensure the functionality works for as many different businesses as possible and to get your honest and critical feedback so we can incorporate before we make it publicly available.
 
             </p>
-            <button style={{ float: "left", backgroundColor: "#e45115", border: "3px solid #e45115" }} onClick={props.back}>
-                Back
-                </button>
         </div>
     );
 }
@@ -179,11 +199,11 @@ function Step5(props) {
     return (
         <div className="form-group">
             <h3>Do you bank with one of the big 5 banks?</h3>
-            <p id="example" ><span>Either: Canadian Imperial Bank of Commerce (CIBC),
+            <p id="example" >Either: Canadian Imperial Bank of Commerce (CIBC),
             Bank of Montreal (BMO),
             Bank of Nova Scotia (Scotiabank),
             Toronto-Dominion Bank (TD), or
-            Royal Bank of Canada (RBC)</span>
+            Royal Bank of Canada (RBC)
             </p>
         </div>
     );
@@ -196,10 +216,7 @@ function Step6(props) {
     return (
         <div className="form-group">
             <h2>Congrats! You qualify to be a Rivvi Beta Customer</h2>
-            <button style={{ float: "left", backgroundColor: "#e45115", border: "3px solid #e45115" }} onClick={props.back}>
-                No thanks
-            </button>
-            <button style={{ float: "right", backgroundColor: "#709500", border: "3px solid #709500" }}>Let's do it</button>
+            <button style={{ float: "right"}}>Let's do it</button>
         </div>
     );
 }
@@ -233,13 +250,6 @@ function Step7(props) {
                     }
                 }
             />
-
-            {/* <div className="center">
-                <button style={{ backgroundColor: "#e45115", border: "3px solid #e45115" }} onClick={props.back}>
-                    Back
-                </button>
-            </div> */}
-
         </div>
     );
 }

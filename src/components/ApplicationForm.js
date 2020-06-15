@@ -30,7 +30,7 @@ export class ApplicationForm extends Component {
 
     //method for 'I CONFIRM' button, this is used to submit the form
     handleSubmit = e => {
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbxNfb7KysJHQLGKJQ57AjPhtCUZWGT2Z8rKVESBcxyeTWBcQAwj/exec'
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbz5m1i3_Hl8_eysW493VMt4kXUuVObd1MhcI1mpNZplFngP3uQ/exec'
         const form = document.forms['submit-to-google-sheet']
         e.preventDefault()
         // var obj;
@@ -92,6 +92,13 @@ export class ApplicationForm extends Component {
     */
     previousButton() {
         let currentStep = this.state.currentStep;
+        if (currentStep === 1 ) {
+            return (
+                <button id="previous-button" type="button"  onClick={this.back}>
+                    Back
+                </button>
+            )
+        }
         if (currentStep !== 1 && currentStep < 10) {
             return (
                 <button
@@ -110,26 +117,46 @@ export class ApplicationForm extends Component {
                 </button>
             )
         }
+        if (currentStep === 11) {
+            return (
+                <button id="previous-button" type="button" onClick={this._prev}>CANCEL</button>
+            )
+        }
         return null;
     }
     nextButton() {
         let currentStep = this.state.currentStep;
         if (currentStep < 10) {
             return (
-                <button
-                    id="next-button"
-                    type="button" onClick={this._next}>
-                    <span style={{color:"#9e9e9e",fontSize:"12px"}}> Press Enter ↵ &ensp; </span> Next
-                </button>
+                <div style={{ width: "180px", float: "right", right: "10px", position: "inherit"}}>
+                    <span>Press Enter ↵</span>
+                    <button
+                        id="next-button"
+                        type="button" onClick={this._next}>
+                        {/* <span style={{ color: "#9e9e9e", fontSize: "12px" }}> Press Enter ↵ &ensp; </span> */} Next
+                    </button>
+                </div>
+
             )
         }
         if (currentStep === 10) {
             return (
-                <button
-                    id="next-button"
-                    type="button" onClick={this._next}>
-                    Confirm
-                </button>
+                <div style={{ width: "200px", float: "right", right: "10px", position: "inherit"}}>
+                    <span>Press Enter ↵</span>
+                    <button
+                        id="next-button"
+                        type="button" onClick={this._next}>
+                        Confirm
+                    </button>
+                </div>
+            )
+        }
+        if (currentStep === 11) {
+            return (
+                <div style={{ width: "200px", float: "right", right: "10px", position: "inherit"}}>
+                    <button type="submit" disabled={this.state.disabled} id="next-button">I AGREE</button>
+                </div>
+                
             )
         }
         return null;
@@ -153,13 +180,13 @@ export class ApplicationForm extends Component {
 
     //funtion that check if you've scrolled to the bottom
     handleScroll = (e) => {
-        const bottom = ((e.target.scrollHeight - e.target.scrollTop-50) <= e.target.clientHeight);
+        const bottom = ((e.target.scrollHeight - e.target.scrollTop - 50) <= e.target.clientHeight);
         if (bottom) {
             this.setState({
                 disabled: false
             });
         }
-      }
+    }
 
     render() {
         return (
@@ -177,7 +204,6 @@ export class ApplicationForm extends Component {
                         handleChange={this.handleChange}
                         companyName={this.state.companyName}
                         handleEnter={this.handleEnter}
-                        back={this.back}
                     />
                     <Step2
                         currentStep={this.state.currentStep}
@@ -242,9 +268,7 @@ export class ApplicationForm extends Component {
                         handleEnter={this.handleEnter}
                     />
                     <Step11
-                        back={this._prev}
                         handleScroll={this.handleScroll}
-                        disabled={this.state.disabled}
                         currentStep={this.state.currentStep}
                     />
                     {this.previousButton()}
@@ -260,7 +284,7 @@ export class ApplicationForm extends Component {
 }
 
 function Step1(props) {
-    if (props.currentStep !== 1) {return null}
+    if (props.currentStep !== 1) { return null }
     return (
         <div id="input-container">
             <label>What is your company name?</label>
@@ -274,19 +298,15 @@ function Step1(props) {
                 value={props.companyName}
                 onChange={props.handleChange}
                 autoFocus
-              required 
+                required
             />
             <div className="inputProgress" style={{ width: "100%" }}></div>
-                
-            <button id="back-button" onClick={props.back}>
-                Back
-                </button>
         </div>
     );
 }
 
 function Step2(props) {
-    if (props.currentStep !== 2) {return null}
+    if (props.currentStep !== 2) { return null }
     return (
         <div id="input-container">
             <label>What is your first name?</label>
@@ -308,7 +328,7 @@ function Step2(props) {
 }
 
 function Step3(props) {
-    if (props.currentStep !== 3) {return null}
+    if (props.currentStep !== 3) { return null }
     return (
         <div id="input-container">
             <label>What is your last name?</label>
@@ -330,7 +350,7 @@ function Step3(props) {
 }
 
 function Step4(props) {
-    if (props.currentStep !== 4) {return null}
+    if (props.currentStep !== 4) { return null }
     return (
         <div id="input-container">
             <label>What is your email?</label>
@@ -352,7 +372,7 @@ function Step4(props) {
 }
 
 function Step5(props) {
-    if (props.currentStep !== 5) {return null}
+    if (props.currentStep !== 5) { return null }
     return (
         <div id="input-container">
             <label>What is your phone number?</label>
@@ -374,18 +394,18 @@ function Step5(props) {
 }
 
 function Step6(props) {
-    if (props.currentStep !== 6) {return null}
+    if (props.currentStep !== 6) { return null }
     return (
         <div id="input-container">
             <label>How often do you pay your employees?</label>
-            <select 
-            className="form-control" 
-            name="payInterval" 
-            id="payInterval" 
-            onKeyDown={props.handleEnter} 
-            onChange={props.handleChange} 
-            autoFocus 
-            required>
+            <select
+                className="form-control"
+                name="payInterval"
+                id="payInterval"
+                onKeyDown={props.handleEnter}
+                onChange={props.handleChange}
+                autoFocus
+                required>
                 <option id="placholder" value="" hidden>Frequency</option>
                 <option value="Daily">Daily</option>
                 <option value="Weekly">Weekly</option>
@@ -399,7 +419,7 @@ function Step6(props) {
 }
 
 function Step7(props) {
-    if (props.currentStep !== 7) {return null}
+    if (props.currentStep !== 7) { return null }
     return (
         <div id="input-container">
             <label>How many employees are paid hourly?</label>
@@ -422,7 +442,7 @@ function Step7(props) {
 }
 
 function Step8(props) {
-    if (props.currentStep !== 8) {return null}
+    if (props.currentStep !== 8) { return null }
     return (
         <div id="input-container">
             <label>How many employees are salaried?</label>
@@ -446,7 +466,7 @@ function Step8(props) {
 }
 
 function Step9(props) {
-    if (props.currentStep !== 9) {return null}
+    if (props.currentStep !== 9) { return null }
     return (
         <div id="input-container">
             <label>What is your total annual payroll?</label>
@@ -468,7 +488,7 @@ function Step9(props) {
     );
 }
 function Step10(props) {
-    if (props.currentStep !== 10) {return null}
+    if (props.currentStep !== 10) { return null }
     // document.getElementById("register").style.height = "250px";
 
     return (
@@ -476,39 +496,39 @@ function Step10(props) {
             <label className="center">Here is your information</label>
             <div className="column">
                 <p id="confirm-text-left">
-                <b>Company Name: </b><br />
-                <b>First Name: </b><br />
-                <b>Last Name: </b><br />
-                <b>Email Address: </b><br />
-                <b>Phone Number: </b><br />
-                <b>Pay frequency: </b><br />
-                <b>Hourly employees: </b><br />
-                <b>Salary employees: </b><br />
-                <b>Total annual payroll: </b><br />
+                    <b>Company Name: </b><br />
+                    <b>First Name: </b><br />
+                    <b>Last Name: </b><br />
+                    <b>Email Address: </b><br />
+                    <b>Phone Number: </b><br />
+                    <b>Pay frequency: </b><br />
+                    <b>Hourly employees: </b><br />
+                    <b>Salary employees: </b><br />
+                    <b>Total annual payroll: </b><br />
                 </p>
             </div>
             <div className="column">
                 <p id="confirm-text-right">
-                {props.companyName}<br />
-                {props.firstName}<br />
-                {props.lastName}<br />
-                {props.emailAddress}<br />
-                {props.phoneNumber}<br />
-                {props.payInterval}<br />
-                {props.paidHourly}<br />
-                {props.salaryPay}<br />
-                {props.annPayroll}<br />
+                    {props.companyName}<br />
+                    {props.firstName}<br />
+                    {props.lastName}<br />
+                    {props.emailAddress}<br />
+                    {props.phoneNumber}<br />
+                    {props.payInterval}<br />
+                    {props.paidHourly}<br />
+                    {props.salaryPay}<br />
+                    {props.annPayroll}<br />
                 </p>
             </div>
-            
+
         </div>
     );
 }
 function Step11(props) {
-    if (props.currentStep !== 11) {return null}
+    if (props.currentStep !== 11) { return null }
     return (
         <div id="confirm-container">
-            <label className="center" style={{textAlign:"center"}}>RIVVI TERMS OF SERVICE<br/>
+            <label className="center" style={{ textAlign: "center" }}>RIVVI TERMS OF SERVICE<br />
             Early Testing Addendum</label>
             <div id="terms" onScroll={props.handleScroll}>
                 This Rivvi Terms of Service Early Testing Addendum (the “Addendum”) governs your access to and use of a non-public, not generally available, early prototype version of the Rivvi Payroll Service (collectively, the “Prototype Service”), and hereby amends and is incorporated into the Rivvi Terms of Service between Rivvi and you as of the date you agree to this Addendum (“Addendum Effective Date”).<br />
@@ -536,8 +556,6 @@ function Step11(props) {
                 Rivvi shall have the right, at its sole discretion, to terminate this Addendum immediately with or without cause upon written notice to you.  In addition, this Addendum shall terminate automatically upon any termination of the Rivvi Terms of Service between you and Rivvi. Sections 3 and 5 - 9 shall survive any termination or expiration of this Addendum.<br />
                 <br />9. Commercial Availability. Nothing in this Addendum shall be deemed to require Rivvi to make the Prototype Service commercially available on any particular date nor does Rivvi make any such representation or warranty, express or implied, regarding any such commercially available version. Nothing in this Addendum shall be deemed to convey to you the rights to use a commercially released version of the Prototype Service or any components thereof, if and when such are available. Use of such commercial product shall be subject to the Rivvi Terms of Service or such other terms and conditions as Rivvi requires in connection with such service.<br />
             </div>
-            <button id="previous-button" onClick={props.back} style={{left:"26px", bottom:"20px"}}>CANCEL</button>
-            <button type="submit" disabled={props.disabled}id="next-button">I AGREE</button>
         </div>
     );
 }
